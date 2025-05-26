@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Management</title>
+  <link href="https://cdn.jsdelivr.net/npm/vuetify@3.3.7/dist/vuetify.min.css" rel="stylesheet" integrity="sha384-YdXvdKDAtzw8b4XX8QyKte4pW0clIGioxSoxVvNugIckn9ZxXzKkK9JjXaTOqVHo" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/vue@3.3.4/dist/vue.global.prod.js" integrity="sha384-o2R0ZMcBXspTUAwscO6ILeicD9RaOXZdVVKcUB7h3frn7HYSZlGU+G0I3PeF25XD" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vuetify@3.3.7/dist/vuetify.min.js" integrity="sha384-Dx1RYPsmzGg02Gm8WDAJBk2no1CDPcwuHd9pE+1/mNpuYsVUqHO5v0Ke1zpAi/iD" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div id="app">
+    <v-app>
+      <v-main class="pa-4">
+        <v-container>
+          <v-row justify="center">
+            <v-col cols="12" md="8">
+              <v-card class="pa-4">
+                <v-card-title>User Management</v-card-title>
+                <v-card-text>
+                  <v-form @submit.prevent="addUser">
+                    <v-text-field label="Name" v-model="newUser.name" required></v-text-field>
+                    <v-text-field label="Email" v-model="newUser.email" required></v-text-field>
+                    <v-btn color="primary" type="submit">Add User</v-btn>
+                  </v-form>
+                  <v-data-table :headers="headers" :items="users" class="mt-4"></v-data-table>
+                </v-card-text>
+              </v-card>
+            </v-col>
+          </v-row>
+        </v-container>
+      </v-main>
+    </v-app>
+  </div>
+
+  <script>
+  const { createApp } = Vue;
+  const { createVuetify } = Vuetify;
+
+  const vuetify = createVuetify();
+
+  createApp({
+    data() {
+      return {
+        newUser: {
+          name: '',
+          email: ''
+        },
+        users: [],
+        headers: [
+          { title: 'Name', key: 'name' },
+          { title: 'Email', key: 'email' }
+        ]
+      };
+    },
+    methods: {
+      addUser() {
+        if (this.newUser.name && this.newUser.email) {
+          this.users.push({
+            name: this.newUser.name,
+            email: this.newUser.email
+          });
+          this.newUser.name = '';
+          this.newUser.email = '';
+        }
+      }
+    }
+  })
+  .use(vuetify)
+  .mount('#app');
+  </script>
+</body>
+</html>
